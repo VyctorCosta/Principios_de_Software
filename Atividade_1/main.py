@@ -19,7 +19,7 @@ def process_value(shared_value):
     _ = i ** 2
 
 # Função que ajusta o valor do nice do processo computacional definindo se ele executa mais rápido ou lento para atingir os 60 segundos totais.
-def print_value(shared_value, pid_process):
+def adjust_nice(shared_value, pid_process):
   sleep_time = 0.5
   seconds = 1
 
@@ -47,7 +47,7 @@ def print_value(shared_value, pid_process):
 compute_process = multiprocessing.Process(target=process_value, args=(shared_value,)) # Criando o processo para computar os valores
 compute_process.start()
 
-control_process = multiprocessing.Process(target=print_value, args=(shared_value, compute_process.pid,)) # Criando o processo para controlar o valor do nice (passando o pid do processo de computar pelo parâmetro)
+control_process = multiprocessing.Process(target=adjust_nice, args=(shared_value, compute_process.pid,)) # Criando o processo para controlar o valor do nice (passando o pid do processo de computar pelo parâmetro)
 control_process.start()
 
 compute_process.join()
